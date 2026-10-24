@@ -1,0 +1,73 @@
+baseURL: "https://pemtpemt116.github.io/"
+languageCode: ko
+defaultContentLanguage: ko
+title: "장바구니 비교노트"
+theme: PaperMod
+paginate: 10
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+
+params:
+  env: production
+  description: "장바구니에 담기 전에 비교할 인기 상품을 가격·평점·리뷰 수로 정리하는 비교 노트입니다."
+  author: pemtpemt116
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  comments: false
+
+  homeInfoParams:
+    Title: "장바구니 비교노트"
+    Content: "같은 종류의 인기 상품을 가격·평점·리뷰 수로 나란히 비교합니다. 가격과 순위는 글마다 적힌 조회 날짜 기준입니다."
+
+  socialIcons: []
+
+menu:
+  main:
+    - name: 글 목록
+      url: /posts/
+      weight: 1
+    - name: 태그
+      url: /tags/
+      weight: 2
+    - name: 카테고리
+      url: /categories/
+      weight: 3
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+# 2026-09-28 claude-seo 점검: 태그 페이지(글 1~2개)는 검색 제외·사이트맵 제외.
+# 예전엔 테마의 index,follow 와 extend_head 의 noindex,follow 가 한 페이지에 같이 나갔고 사이트맵의 절반이 태그였다.
+cascade:
+  - target:
+      path: "{/tags,/tags/**}"
+    params:
+      robotsNoIndex: true
+    sitemap:
+      disable: true
+
+# 관련 글(extend_post_content.html) — 같은 카테고리, 날짜가 가까운 순
+related:
+  includeNewer: true
+  threshold: 1
+  toLower: false
+  indices:
+    - name: categories
+      weight: 100
+    - name: date
+      weight: 10
